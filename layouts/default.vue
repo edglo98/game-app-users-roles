@@ -1,6 +1,8 @@
 <template>
   <div>
+    navegador
     <Nuxt />
+    footer
   </div>
 </template>
 

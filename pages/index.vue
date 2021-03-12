@@ -28,7 +28,18 @@
 </template>
 
 <script>
-export default {}
+export default {
+  head: {
+    titleTemplate: 'Games App | Home',
+    meta: [
+      { 
+        hid: 'description', 
+        name: 'description', 
+        content: 'Meta description' 
+      }
+    ]
+  }
+}
 </script>
 
 <style>
