@@ -6,7 +6,7 @@
   </footer>
 </template>
 
-<style>
+<style scoped>
     footer{
         background: white;
         box-shadow: 0px -10px 10px 0px #CCCCCC40;

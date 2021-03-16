@@ -33,7 +33,7 @@
   </nav>
 </template>
 
-<style>
+<style scoped>
 /* navbar estilos globales */
 
 .navbar {

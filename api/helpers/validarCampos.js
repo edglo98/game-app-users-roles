@@ -8,7 +8,7 @@ const validarResultados = ( req, res, next ) => {
 
         return res.status(400).json({
             ok  : false,
-            errores : errores.mapped()
+            msg : errores.mapped()
         });
     }
 
