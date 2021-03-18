@@ -72,12 +72,14 @@
     :dialog="DialogLoad"
     />
     {{pruebas}}
+    {{userData}}
   </v-container>
 </template>
 
 <script>
   import DialogPer from '~/components/DialogPersistent';
   import DialogLoa from '~/components/DialogLoader';
+  import { mapState, mapMutations } from 'vuex';
 
   import { validationMixin } from 'vuelidate'
   import { required, email, alphaNum } from 'vuelidate/lib/validators'
@@ -122,20 +124,28 @@ export default {
       !this.$v.password.required && errors.push('Password is required')
       return errors
     },
+    ...mapState(['userData'])
   },
   methods : {
+    ...mapMutations(['changeStatusUser']),
     async logIn(){
       if(this.errores.length === 0){
         this.DialogLoad = true;
         try {
-          const data = await this.$axios.post('/api/login', {
+          const { data } = await this.$axios.post('/api/login', {
             email: this.correo,
             password: this.password
           });
 
-          this.responseA.msg = data;
-          this.DialogLoad = false;
+          // this.responseA.msg = data;
+          this.pruebas = data.token;
+          try {
+            this.changeStatusUser(data);
+          } catch (err) {
+            this.pruebas = err;
+          }
 
+          this.DialogLoad = false;
         } catch (error) {
 
           const { data } = error.response;

@@ -24,7 +24,7 @@ export default {
     }
   },
   async created(){
-    await this.getElements();
+    // await this.getElements();
   },
   methods : {
     async getElements(){
