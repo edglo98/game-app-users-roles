@@ -1,7 +1,7 @@
 <template>
   <div class="videogame-container">
     <div v-for="videogame in videogames" :key="videogame.id" class="videogame-card-content">
-      <img class="videogame-image" :src="require(`~/assets/images/videogames/${videogame.image_url}.jpg`)">
+      <img class="videogame-image" :src="require(`~/assets/images/videoGames/${videogame.image_url}.jpg`)">
       <div class="videogame-card-description">
         <h2>{{ videogame.title }}</h2>
         <p>{{ videogame.description }}</p>
