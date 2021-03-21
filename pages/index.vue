@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    home  {{ obo }}
+    home  {{ $auth.$storage.getUniversal('userDatas') }}
   </div>
 </template>
 
@@ -13,33 +13,11 @@ export default {
   },
   head () {
     return {
-      title: 'Home | Games App',
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Meta description'
-        }
-      ]
+
     }
-  },
-  async created () {
-    // await this.getElements();
   },
   methods: {
-    async getElements () {
-      try {
-        this.obo = await this.$axios.get('/api/MA', {
-          headers: {
-            token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE1NzU3NDQ2LCJleHAiOjE2MTc4MzEwNDZ9.wZfPILNwcHSuqKOVKEE1DddWRuMr_GpeOYZPgLTdXTM'
-          }
-        })
-        console.log(data)
-      //  this.obo = data;
-      } catch (error) {
-        this.obo = error.response.data
-      }
-    }
+
   }
 }
 </script>

@@ -74,8 +74,6 @@
     <DialogLoa
       :dialog="DialogLoad"
     />
-    {{ pruebas }}
-    {{ userData }}
   </v-container>
 </template>
 
@@ -107,8 +105,7 @@ export default {
         msg: ''
       },
       DialogLoad: false,
-      errores: [],
-      pruebas: ''
+      errores: []
     }
   },
   computed: {
@@ -150,33 +147,56 @@ export default {
             password: this.password
           })
 
-          // this.responseA.msg = data;
-          this.pruebas = data.token
-          try {
-            this.changeStatusUser(data)
-          } catch (err) {
-            this.pruebas = err
+          const datasMA = await this.$axios.get(`/api/MA/${data.msg.idAdrministrador}`, {
+            headers: {
+              token: data.token
+            }
+          })
+          const { msg } = datasMA.data
+
+          const datosUser = {
+            datos: {
+              idAdrministrador: data.msg.idAdrministrador,
+              nombre: data.msg.Nombre,
+              correo: data.msg.Correo,
+              password: data.msg.Password
+            },
+            modulos: {
+              inicio: msg[0].estado,
+              fotos: msg[1].estado,
+              ilustraciones: msg[2].estado,
+              juegosMesa: msg[3].estado,
+              videojuegos: msg[4].estado
+            },
+            token: data.msg.token
           }
 
+          this.changeStatusUser(datosUser)
+
           this.DialogLoad = false
+          await this.$auth.$storage.setUniversal('userDatas', datosUser)
+          this.$router.push('/')
         } catch (error) {
           const { data } = error.response
           const { ok, msg } = data
           this.DialogLoad = false
 
-          if (ok === false) {
-            if (msg.password != null) {
-              const { password } = msg
-              this.responseA.title = 'Errores'
-              this.responseA.msg = password.msg
-              this.responseA.dialog = true
-              return
-            }
-            this.responseA.title = 'Alerta!'
-            this.responseA.msg = msg
-            this.responseA.dialog = true
-          }
+          this.errorResponses(ok, msg)
         }
+      }
+    },
+    errorResponses (ok, msg) {
+      if (ok === false) {
+        if (msg.password != null) {
+          const { password } = msg
+          this.responseA.title = 'Errores'
+          this.responseA.msg = password.msg
+          this.responseA.dialog = true
+          return
+        }
+        this.responseA.title = 'Alerta!'
+        this.responseA.msg = msg
+        this.responseA.dialog = true
       }
     }
   }
