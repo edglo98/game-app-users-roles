@@ -1,12 +1,20 @@
 <template>
   <div>
     <Navbar />
-    <Nuxt />
+    <div class="main-container">
+      <Nuxt />
+    </div>
     <Footer />
   </div>
 </template>
 
 <style scoped>
+.main-container {
+  min-height: calc(100vh - 141px);
+  width: 100%;
+  max-width: 1250px;
+  margin: 0px auto;
+}
 html {
   font-family:
     'Source Sans Pro',

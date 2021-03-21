@@ -13,18 +13,30 @@
             </div>
           </a>
           <div class="navbar-hamburguer-menu">
-            <button onclick="open_menu()" class="button contact-button">
-              Contactanos
-            </button>
-            <div>menu</div>
+            <HamburguerMenu />
           </div>
         </div>
-        <div id="aside-bar" class="aside-bar">
+        <div id="aside-bar" class="aside-bar aside-bar__opened">
           <ul>
-            <li class="navbar-item navbar-item__active">
-              <a href="/" title="titulo">
-                <span>home</span>
-              </a>
+            <li class="navbar-item">
+              <NuxtLink to="/photos" title="titulo" class="navbar-item" active-class="navbar-item__active">
+                <span>Fotografías</span>
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/ilustrators" title="titulo" class="navbar-item" active-class="navbar-item__active">
+                <span>Ilustraciones</span>
+              </NuxtLink>
+            </li>
+            <li class="navbar-item">
+              <NuxtLink to="/tableGames" title="titulo" class="navbar-item" active-class="navbar-item__active">
+                <span>Juegos de mesa</span>
+              </NuxtLink>
+            </li>
+            <li class="navbar-item">
+              <NuxtLink to="/videoGames" title="titulo" class="navbar-item" active-class="navbar-item__active">
+                <span>Video juegos</span>
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -38,13 +50,14 @@
 
 .navbar {
   /* border: 1px solid blueviolet; */
-  background-color: var(--white);
+  background-color: white;
   position: sticky;
   top: 0;
   width: 100%;
   height: 90px;
   box-shadow: 0px 0px 20px #00000030;
   transition: background-color 0.3s ease;
+  z-index: 1;
 }
 
 .navbar h1,
@@ -177,7 +190,7 @@
   color: green;
 }
 
-.navbar-item__active a {
+.navbar-item__active {
   color: green;
 }
 
@@ -202,13 +215,15 @@
     height: max-content;
     left: -100%;
     transition: left 0.3s ease;
+    background-color: white;
+    box-shadow: 0px 5px 10px #CCCCCC40;
   }
 
   .aside-bar__opened {
     left: 0;
   }
 
-  .navbar-item a {
+  .navbar-item {
     padding: 10px 0px;
     transition: color 0.2s ease;
   }
