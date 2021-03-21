@@ -24,27 +24,27 @@ export default {
           image_url: 'gato1'
         },
         {
-          id: 'abc127',
+          id: 'abc126',
           image_url: 'ninfa1'
         },
         {
-          id: 'abc128',
+          id: 'abc127',
           image_url: 'hamster1'
         },
         {
-          id: 'abc129',
+          id: 'abc128',
           image_url: 'ninfa2'
         },
         {
-          id: 'abc221',
+          id: 'abc129',
           image_url: 'conejo2'
         },
         {
-          id: 'abc222',
+          id: 'abc221',
           image_url: 'perro1'
         },
         {
-          id: 'abc126',
+          id: 'abc222',
           image_url: 'huron2'
         },
         {
@@ -56,31 +56,31 @@ export default {
           image_url: 'gato2'
         },
         {
-          id: 'abc129',
+          id: 'abc225',
           image_url: 'ninfa3'
         },
         {
-          id: 'abc221',
+          id: 'abc226',
           image_url: 'hamster3'
         },
         {
-          id: 'abc222',
+          id: 'abc227',
           image_url: 'conejo3'
         },
         {
-          id: 'abc225',
+          id: 'abc228',
           image_url: 'huron3'
         },
         {
-          id: 'abc224',
+          id: 'abc229',
           image_url: 'gato3'
         },
         {
-          id: 'abc223',
+          id: 'abc321',
           image_url: 'perro2'
         },
         {
-          id: 'abc225',
+          id: 'abc322',
           image_url: 'perro3'
         }
       ]
@@ -100,7 +100,8 @@ export default {
   width: 100%;
   height: auto;
   cursor: pointer;
-  transition: transform .2s ease;
+  border-radius: 0px;
+  transition: transform .2s ease, border-radius .2s ease;
 }
 .photografies-image {
   width: 100%;

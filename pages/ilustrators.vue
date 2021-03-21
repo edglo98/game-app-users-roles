@@ -24,27 +24,27 @@ export default {
           image_url: 'ilustracion3'
         },
         {
-          id: 'abc127',
+          id: 'abc126',
           image_url: 'ilustracion4'
         },
         {
-          id: 'abc128',
+          id: 'abc127',
           image_url: 'ilustracion5'
         },
         {
-          id: 'abc129',
+          id: 'abc128',
           image_url: 'ilustracion6'
         },
         {
-          id: 'abc221',
+          id: 'abc129',
           image_url: 'ilustracion7'
         },
         {
-          id: 'abc222',
+          id: 'abc221',
           image_url: 'ilustracion8'
         },
         {
-          id: 'abc126',
+          id: 'abc222',
           image_url: 'ilustracion9'
         },
         {
@@ -56,31 +56,31 @@ export default {
           image_url: 'ilustracion11'
         },
         {
-          id: 'abc129',
+          id: 'abc225',
           image_url: 'ilustracion12'
         },
         {
-          id: 'abc221',
+          id: 'abc226',
           image_url: 'ilustracion13'
         },
         {
-          id: 'abc222',
+          id: 'abc227',
           image_url: 'ilustracion14'
         },
         {
-          id: 'abc225',
+          id: 'abc228',
           image_url: 'ilustracion15'
         },
         {
-          id: 'abc224',
+          id: 'abc229',
           image_url: 'ilustracion16'
         },
         {
-          id: 'abc223',
+          id: 'abc321',
           image_url: 'ilustracion17'
         },
         {
-          id: 'abc225',
+          id: 'abc322',
           image_url: 'ilustracion18'
         }
       ]

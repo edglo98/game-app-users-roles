@@ -1,29 +1,27 @@
-const sql = require('mssql');
+const sql = require('mssql')
 
 const config = {
-  user: 'pablobubu14_SQLLogin_1',
+  user: process.env.user,
   password: process.env.password,
-  server: 'HeyBookDB.mssql.somee.com',
-  database: 'HeyBookDB',
+  server: process.env.server,
+  database: process.env.database,
   options: {
-    encrypt : true,
-    enableArithAbort : true
-  },
+    encrypt: true,
+    enableArithAbort: true
+  }
 }
 
-sql.on('error', err => {
-  console.log('Base de datos no conectada')
+sql.on('error', (err) => {
+  return err
 })
 
 const runQuery = (query) => {
   return sql.connect(config).then((pool) => {
-    const e = pool.query(query);
-    return e;
+    const e = pool.query(query)
+    return e
   })
 }
 
 module.exports = {
   runQuery
-};
-
-
+}
