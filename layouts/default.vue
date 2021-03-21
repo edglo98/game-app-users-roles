@@ -6,6 +6,19 @@
   </div>
 </template>
 
+<script>
+export default {
+
+  async created(){
+    const datos = await this.$auth.$storage.getUniversal('userDatas');
+    if(datos === undefined){
+      return this.$router.push('/login');
+    }
+  },
+
+}
+</script>
+
 <style scoped>
 html {
   font-family:
