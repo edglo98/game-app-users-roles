@@ -49,7 +49,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://api.github.com',
+    baseURL: 'https://user-roles-4r1b8ejus-edglo98.vercel.app',
     proxyHeaders: false,
     credentials: false
   },
