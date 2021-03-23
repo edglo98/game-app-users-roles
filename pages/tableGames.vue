@@ -1,19 +1,29 @@
 <template>
-  <div class="tablegame-container">
-    <div v-for="tablegame in tablegames" :key="tablegame.id" class="tablegame-card-content">
-      <img class="tablegame-image" :src="require(`~/assets/images/tableGames/${tablegame.image_url}.jpg`)">
-      <div class="tablegame-card-description">
-        <h2>{{ tablegame.title }}</h2>
-        <p>{{ tablegame.description }}</p>
+  <div>
+    <div v-if="loading" class="tablegame-container">
+      <div v-for="tablegame in tablegames" :key="tablegame.id" class="tablegame-card-content">
+        <img class="tablegame-image" :src="require(`~/assets/images/tableGames/${tablegame.image_url}.jpg`)">
+        <div class="tablegame-card-description">
+          <h2>{{ tablegame.title }}</h2>
+          <p>{{ tablegame.description }}</p>
+        </div>
       </div>
+    </div>
+    <div v-else>
+      <Errorc />
     </div>
   </div>
 </template>
 
 <script>
+import Errorc from '~/components/error';
 export default {
+  components : {
+    Errorc
+  },
   data () {
     return {
+      loading : true,
       tablegames: [
         {
           id: 'abc123',
@@ -52,6 +62,12 @@ export default {
           description: 'Scrabble es un juego de mesa en el cual cada jugador intenta ganar más puntos mediante la construcción de palabras sobre un tablero de 15x15 casillas cuadradas. Las palabras pueden formarse, siempre y cuando aparezcan en el diccionario estándar, de forma horizontal o verticalmente y se pueden cruzar. '
         }
       ]
+    }
+  },
+  async created(){
+    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
+    if(modulos.juegosMesa === false){
+      this.loading = false;
     }
   }
 }

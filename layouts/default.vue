@@ -16,7 +16,7 @@ export default {
     if (datos === undefined) {
       return this.$router.push('/login')
     }
-  }
+  },
 
 }
 </script>

@@ -79,9 +79,9 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-
 import { validationMixin } from 'vuelidate'
 import { required, email, alphaNum } from 'vuelidate/lib/validators'
+
 import DialogLoa from '~/components/DialogLoader'
 import DialogPer from '~/components/DialogPersistent'
 
@@ -105,7 +105,7 @@ export default {
         msg: ''
       },
       DialogLoad: false,
-      errores: []
+      errores: [],
     }
   },
   computed: {
@@ -137,7 +137,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeStatusUser']),
     async logIn () {
       if (this.errores.length === 0) {
         this.DialogLoad = true
@@ -146,7 +145,6 @@ export default {
             email: this.correo,
             password: this.password
           })
-
           const datasMA = await this.$axios.get(`/api/MA/${data.msg.idAdrministrador}`, {
             headers: {
               token: data.token
@@ -168,14 +166,13 @@ export default {
               juegosMesa: msg[3].estado,
               videojuegos: msg[4].estado
             },
-            token: data.msg.token
+            token: data.token
           }
 
-          this.changeStatusUser(datosUser)
+          this.DialogLoad = false;
 
-          this.DialogLoad = false
-          await this.$auth.$storage.setUniversal('userDatas', datosUser)
-          this.$router.push('/')
+          this.autenticated( datosUser, data.msg.idAdrministrador );
+
         } catch (error) {
           const { data } = error.response
           const { ok, msg } = data
@@ -197,6 +194,20 @@ export default {
         this.responseA.title = 'Alerta!'
         this.responseA.msg = msg
         this.responseA.dialog = true
+      }
+    },
+    async autenticated( datosUser, id){
+      console.log(datosUser, id);
+      switch (id){
+        case 6:
+          await this.$auth.$storage.setUniversal('adminDatas', datosUser);
+          await this.$auth.$storage.setUniversal('userDatas', datosUser);
+          this.$router.push('/admin');
+        break;
+        default:
+          await this.$auth.$storage.setUniversal('userDatas', datosUser);
+          this.$router.push('/');
+        break
       }
     }
   }

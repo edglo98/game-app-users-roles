@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    home  {{ $auth.$storage.getUniversal('userDatas') }}
+    home  {{ $auth.$storage.getUniversal('userDatas') }} <br>
   </div>
 </template>
 

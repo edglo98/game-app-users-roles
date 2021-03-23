@@ -16,7 +16,7 @@ const validaciones = [
 ];
 
 router.get('/', validarJWT, async( req, res, next ) => {
-  const { recordset } = await runQuery(`select * from administradores`);
+  const { recordset } = await runQuery(`select * from administradores where idAdrministrador <> 6`);
   if( recordset.length > 0 ){
     return res.status(200).json({
       ok : true,

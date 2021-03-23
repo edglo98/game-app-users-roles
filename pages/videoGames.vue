@@ -1,19 +1,29 @@
 <template>
-  <div class="videogame-container">
-    <div v-for="videogame in videogames" :key="videogame.id" class="videogame-card-content">
-      <img class="videogame-image" :src="require(`~/assets/images/videoGames/${videogame.image_url}.jpg`)">
-      <div class="videogame-card-description">
-        <h2>{{ videogame.title }}</h2>
-        <p>{{ videogame.description }}</p>
+  <div>
+    <div v-if="loading" class="videogame-container">
+      <div v-for="videogame in videogames" :key="videogame.id" class="videogame-card-content">
+        <img class="videogame-image" :src="require(`~/assets/images/videoGames/${videogame.image_url}.jpg`)">
+        <div class="videogame-card-description">
+          <h2>{{ videogame.title }}</h2>
+          <p>{{ videogame.description }}</p>
+        </div>
       </div>
+    </div>
+    <div v-else>
+      <Errorc />
     </div>
   </div>
 </template>
 
 <script>
+import Errorc from '~/components/error';
 export default {
+  components : {
+    Errorc
+  },
   data () {
     return {
+      loading : true,
       videogames: [
         {
           id: 'abc123',
@@ -58,6 +68,12 @@ export default {
           description: 'Minecraft es un videojuego de construcción, de tipo «mundo abierto» o sandbox creado originalmente por el sueco Markus Persson (conocido comúnmente como "Notch"),​ y posteriormente desarrollado por su empresa, Mojang Studios. Fue lanzado públicamente el 17 de mayo de 2009, después de diversos cambios fue lanzada su versión completa el 18 de noviembre de 2011.'
         }
       ]
+    }
+  },
+  async created(){
+    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
+    if(modulos.videojuegos === false){
+      this.loading = false;
     }
   }
 }

@@ -37,6 +37,11 @@
       title : String,
       dialog : Boolean
     },
+    methods : {
+      downDialog(){
+        this.dialog = false;
+      }
+    },
     created(){
       this.dialog = false;
     }

@@ -1,15 +1,25 @@
 <template>
-  <div class="ilustration-container">
-    <div v-for="ilustration in ilustrations" :key="ilustration.id" class="ilustration-image-content">
-      <img class="ilustration-image" :src="require(`~/assets/images/ilustrations/${ilustration.image_url}.jpg`)">
+  <div>
+    <div v-if="loading" class="ilustration-container">
+      <div v-for="ilustration in ilustrations" :key="ilustration.id" class="ilustration-image-content">
+        <img class="ilustration-image" :src="require(`~/assets/images/ilustrations/${ilustration.image_url}.jpg`)">
+      </div>
+    </div>
+    <div v-else>
+      <ErrorC />
     </div>
   </div>
 </template>
 
 <script>
+import ErrorC from '~/components/error';
 export default {
+  components : {
+    ErrorC
+  },
   data () {
     return {
+      loading : true,
       ilustrations: [
         {
           id: 'abc123',
@@ -84,6 +94,12 @@ export default {
           image_url: 'ilustracion18'
         }
       ]
+    }
+  },
+  async created(){
+    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
+    if(modulos.ilustraciones === false){
+      this.loading = false;
     }
   }
 }

@@ -1,15 +1,25 @@
 <template>
-  <div class="photografies-container">
-    <div v-for="photo in photos" :key="photo.id" class="photografies-image-content">
-      <img class="photografies-image" :src="require(`~/assets/images/pets/${photo.image_url}.jpg`)">
+  <div>
+    <div v-if="loading" class="photografies-container">
+      <div v-for="photo in photos" :key="photo.id" class="photografies-image-content">
+        <img class="photografies-image" :src="require(`~/assets/images/pets/${photo.image_url}.jpg`)">
+      </div>
+    </div>
+    <div v-else>
+      <ErrorC />
     </div>
   </div>
 </template>
 
 <script>
+import ErrorC from '~/components/error';
 export default {
+  components : {
+    ErrorC
+  },
   data () {
     return {
+      loading : true,
       photos: [
         {
           id: 'abc123',
@@ -84,6 +94,12 @@ export default {
           image_url: 'perro3'
         }
       ]
+    }
+  },
+  async created(){
+    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
+    if(modulos.fotos === false){
+      this.loading = false;
     }
   }
 }

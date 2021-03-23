@@ -3,7 +3,7 @@
     <div class="navbar-size">
       <div class="navbar-container">
         <div class="navbar-container__logo">
-          <a href="/">
+          <nuxt-link to="/">
             <div>
               <img src="~/assets/images/logo.png" alt="logo cea">
             </div>
@@ -11,32 +11,35 @@
               <h1>Game App</h1>
               <small>juegos y más</small>
             </div>
-          </a>
+          </nuxt-link>
           <div class="navbar-hamburguer-menu">
             <HamburguerMenu />
           </div>
         </div>
         <div id="aside-bar" class="aside-bar aside-bar__opened">
           <ul>
-            <li class="navbar-item">
+            <li class="navbar-item" v-if="fotos">
               <NuxtLink to="/photos" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Fotografías</span>
               </NuxtLink>
             </li>
-            <li>
+            <li v-if="ilustraciones">
               <NuxtLink to="/ilustrators" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Ilustraciones</span>
               </NuxtLink>
             </li>
-            <li class="navbar-item">
+            <li class="navbar-item" v-if="juegosMesa">
               <NuxtLink to="/tableGames" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Juegos de mesa</span>
               </NuxtLink>
             </li>
-            <li class="navbar-item">
+            <li class="navbar-item" v-if="videojuegos">
               <NuxtLink to="/videoGames" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Video juegos</span>
               </NuxtLink>
+            </li>
+            <li class="navbar-item">
+              <input type="button" title="titulo" class="navbar-item" active-class="navbar-item__active" v-on:click="Logout" value="Salir">
             </li>
           </ul>
         </div>
@@ -44,6 +47,36 @@
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  data(){
+    return {
+      inicio : false,
+      fotos : false,
+      ilustraciones : false,
+      juegosMesa : false,
+      videojuegos : false
+    }
+  },
+  methods : {
+    async Logout(){
+      this.$auth.$storage.setUniversal('userDatas', undefined);
+      this.$auth.$storage.setUniversal('adminDatas', undefined);
+      this.$router.push('/login');
+    }
+  },
+  async created(){
+    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
+    this.inicio = modulos.inicio;
+    this.fotos = modulos.fotos;
+    this.ilustraciones = modulos.ilustraciones
+    this.juegosMesa = modulos.juegosMesa
+    this.videojuegos = modulos.videojuegos;
+  }
+
+}
+</script>
 
 <style scoped>
 /* navbar estilos globales */

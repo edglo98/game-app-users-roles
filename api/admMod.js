@@ -51,6 +51,7 @@ router.get('/:id', validarJWT, async( req, res, next ) => {
     res.status(400).json({
       ok : false,
       msg : 'Contactar con el administrador',
+      error
     });
   }
 });
@@ -72,7 +73,8 @@ router.post('/', validaciones, async( req, res, next ) => {
   } catch (error) {
     res.status(400).json({
       ok : false,
-      msg : 'Contactar con el administrador'
+      msg : 'Contactar con el administrador',
+      error
     });
   }
 });
