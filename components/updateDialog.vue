@@ -17,8 +17,7 @@
     >
       <v-card>
         <v-card-title class="headline">
-          ¿Agregar usuario?
-          {{pruebas}}
+          ¿Actualizar usuario?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -86,12 +85,12 @@ export default {
           correo : this.datas.correo,
           password : this.datas.password
         }
-        const { data } = await this.$axios.post('/api/admin', datosUser, {
+        const { data } = await this.$axios.put('/api/admin/'+this.datas.id, datosUser, {
             headers : {
               token : this.datas.token
             },
         })
-        await this.addModules( data.id );
+        await this.addModules(  );
         this.DialogLoad = false;
         this.dialog = false;
         // location.reload();
@@ -122,41 +121,39 @@ export default {
         this.dialogRes = true
       }
     },
-    async addModules( id ){
+    async addModules( ){
       const mod9 = {
           idm : 9,
-          ida : Number(id),
           estado : this.datas.modulesChe.inicio === true ? 1 : 0
       }
       const mod10 = {
           idm : 10,
-          ida : Number(id),
           estado : this.datas.modulesChe.fotos === true ? 1 : 0
       }
       const mod11 = {
           idm : 11,
-          ida : Number(id),
           estado : this.datas.modulesChe.ilustraciones === true ? 1 : 0
       }
       const mod12 = {
           idm : 12,
-          ida : Number(id),
           estado : this.datas.modulesChe.mesa === true ? 1 : 0
       }
       const mod13 = {
           idm : 13,
-          ida : Number(id),
           estado : this.datas.modulesChe.videojuegos === true ? 1 : 0
       }
 
       const header2 = { headers : { token : this.datas.token }};
       try {
-        await this.$axios.post('/api/MA', mod9, header2);
-        await this.$axios.post('/api/MA', mod10, header2);
-        await this.$axios.post('/api/MA', mod11, header2);
-        await this.$axios.post('/api/MA', mod12, header2);
-        await this.$axios.post('/api/MA', mod13, header2);
+        console.log(1)
+        await this.$axios.put('/api/MA/'+this.datas.id, mod9, header2);
+        console.log(2)
+        await this.$axios.put('/api/MA/'+this.datas.id, mod10, header2);
+        await this.$axios.put('/api/MA/'+this.datas.id, mod11, header2);
+        await this.$axios.put('/api/MA/'+this.datas.id, mod12, header2);
+        await this.$axios.put('/api/MA/'+this.datas.id, mod13, header2);
       } catch (error) {
+        console.log(error.response)
       }
     }
   }

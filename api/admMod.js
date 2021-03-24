@@ -97,7 +97,10 @@ router.delete('/:id', comprobarJWT, async (req, res, next) => {
   }
 })
 
-router.put('/:id', validaciones, async (req, res, next) => {
+router.put('/:id', [check('idm', 'El id del modulo es obligatorio es obligatorio').not().isEmpty(),
+check('estado', 'El estado es obligatorio y solo puede ser 1 (true) o 0 (false)').not().isEmpty(),
+validarResultados,
+validarJWT], async (req, res, next) => {
   const idA = req.params.id
   const { idm, estado = 0 } = req.body
   try {

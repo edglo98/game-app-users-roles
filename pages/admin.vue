@@ -53,6 +53,18 @@
                         :error-messages="passwordErrors"
                       >
                       </v-text-field>
+
+                      <v-text-field
+                        v-if="!enable"
+                        label="Contraseña"
+                        required
+                        v-model="password2"
+                        type="password"
+                        @input="$v.password.$touch()"
+                        @blur="$v.password.$touch()"
+                        :error-messages="passwordErrors"
+                      >
+                      </v-text-field>
                     </v-form>
                   </v-flex>
                   <v-flex xs1></v-flex>
@@ -97,6 +109,8 @@
             v-if="!enable"
             class="mt-5 success"
             block
+            :disabled="!activar"
+            @click="$refs.updateDialog.showDialog()"
           >
             Actualizar
           </v-btn>
@@ -138,7 +152,17 @@
           token : datosAdmin.token
         }"
         />
-      {{modules}}
+        <UpdateDialog
+        ref="updateDialog"
+        :datas="{
+          nombre,
+          correo,
+          password,
+          modulesChe,
+          id,
+          token : datosAdmin.token
+        }"
+        />
     </v-container>
     <div v-else>
       <ErrorC />
@@ -153,12 +177,14 @@ import { validationMixin } from 'vuelidate'
 import ErrorC from '~/components/error';
 import FormsUsers from '~/components/FormUsers';
 import AddDialog from '~/components/AddDialos';
+import UpdateDialog from '~/components/updateDialog';
 
 export default {
   components : {
     ErrorC,
     FormsUsers,
-    AddDialog
+    AddDialog,
+    UpdateDialog
   },
   mixins: [validationMixin],
   validations: {
@@ -198,9 +224,12 @@ export default {
       loading : true,
       enable : true,
       datosAdmin : '',
+      activar: false,
+      id: null,
       nombre : '',
       correo : '',
       password : '',
+      password2 : '',
       modulesChe : {
         inicio : true,
         fotos : false,
@@ -229,6 +258,7 @@ export default {
   },
   methods : {
     async getAdmin(){
+      this.administradores = [];
       try {
         const { data } = await this.$axios.get('/api/admin', {
           headers : {
@@ -243,9 +273,13 @@ export default {
       }
     },
     async getData( item ){
+      console.log(item)
       this.enable = false;
       this.correo = item.Correo;
       this.nombre = item.Nombre;
+      this.password = item.Password;
+      this.activar = false;
+      this.id = item.idAdrministrador;
       await this.getModuleUse(item.idAdrministrador)
     },
     async getModuleUse( id ){
@@ -273,11 +307,25 @@ export default {
       this.enable = true;
       this.$refs.form.reset();
       this.modulesChe.inicio = true;
+      this.modulesChe.fotos = false;
+      this.modulesChe.ilustraciones = false;
+      this.modulesChe.mesa = false;
+      this.modulesChe.videojuegos = false;
     },
     openModal(){
       if (this.errores.length === 0) {
         this.$refs.addDialog.showDialog()
       }
+    }
+  },
+  watch : {
+    password2(newV, oldV){
+      if(newV == this.password){
+        this.activar =true;
+      }else{
+        this.activar = false;
+      }
+
     }
   }
 }
