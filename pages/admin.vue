@@ -116,6 +116,14 @@
           </v-btn>
           <v-btn
             v-if="!enable"
+            class="mt-5 red"
+            block
+            @click="$refs.deleteDialog.showDialog()"
+          >
+            Eliminar
+          </v-btn>
+          <v-btn
+            v-if="!enable"
             class="mt-2 error"
             block
             @click="cancel"
@@ -163,6 +171,13 @@
           token : datosAdmin.token
         }"
         />
+        <DeleteDialog
+        ref="deleteDialog"
+        :datas="{
+          id,
+          token : datosAdmin.token
+        }"
+        />
     </v-container>
     <div v-else>
       <ErrorC />
@@ -178,13 +193,15 @@ import ErrorC from '~/components/error';
 import FormsUsers from '~/components/FormUsers';
 import AddDialog from '~/components/AddDialos';
 import UpdateDialog from '~/components/updateDialog';
+import DeleteDialog from '~/components/deleteDialog';
 
 export default {
   components : {
     ErrorC,
     FormsUsers,
     AddDialog,
-    UpdateDialog
+    UpdateDialog,
+    DeleteDialog
   },
   mixins: [validationMixin],
   validations: {
@@ -316,6 +333,9 @@ export default {
       if (this.errores.length === 0) {
         this.$refs.addDialog.showDialog()
       }
+    },
+    activarBotones(){
+      this.enable = true;
     }
   },
   watch : {

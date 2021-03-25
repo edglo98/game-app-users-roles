@@ -38,6 +38,11 @@
                 <span>Video juegos</span>
               </NuxtLink>
             </li>
+            <li class="navbar-item" v-if="admin">
+              <NuxtLink to="/admin" title="titulo" class="navbar-item" active-class="navbar-item__active">
+                <span>Administrador</span>
+              </NuxtLink>
+            </li>
             <li class="navbar-item">
               <input type="button" title="titulo" class="navbar-item" active-class="navbar-item__active" v-on:click="Logout" value="Salir">
             </li>
@@ -56,7 +61,8 @@ export default {
       fotos : false,
       ilustraciones : false,
       juegosMesa : false,
-      videojuegos : false
+      videojuegos : false,
+      admin : true
     }
   },
   methods : {
@@ -67,6 +73,10 @@ export default {
     }
   },
   async created(){
+    const datosAd = await this.$auth.$storage.getUniversal('adminDatas');
+    if(datosAd === undefined){
+      this.admin = false;
+    }
     const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
     this.inicio = modulos.inicio;
     this.fotos = modulos.fotos;

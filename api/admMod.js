@@ -75,7 +75,7 @@ router.post('/', validaciones, async (req, res, next) => {
   }
 })
 
-router.delete('/:id', comprobarJWT, async (req, res, next) => {
+router.delete('/:id', validarJWT, async (req, res, next) => {
   const idA = req.params.id
   try {
     const { rowsAffected } = await runQuery(`delete from ModulosAdministradores where idAdrministrador = ${idA}`)
