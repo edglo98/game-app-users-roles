@@ -43,7 +43,7 @@
                 <span>Administrador</span>
               </NuxtLink>
             </li>
-            <li class="navbar-item">
+            <li class="navbar-item logout">
               <input
                 type="button"
                 title="titulo"
@@ -98,6 +98,9 @@ export default {
 
 <style scoped>
 /* navbar estilos globales */
+.logout{
+ color: 'grey'
+}
 
 .navbar {
   /* border: 1px solid blueviolet; */
