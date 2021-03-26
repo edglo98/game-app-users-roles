@@ -12,14 +12,14 @@
 </template>
 
 <script>
-import ErrorC from '~/components/error';
+import ErrorC from '~/components/error'
 export default {
-  components : {
+  components: {
     ErrorC
   },
   data () {
     return {
-      loading : true,
+      loading: true,
       ilustrations: [
         {
           id: 'abc123',
@@ -96,10 +96,15 @@ export default {
       ]
     }
   },
-  async created(){
-    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
-    if(modulos.ilustraciones === false){
-      this.loading = false;
+  async created () {
+    try {
+      const response = await this.$auth.$storage.getUniversal('userDatas')
+      const { modulos } = response
+      if (modulos.ilustraciones === false) {
+        this.loading = false
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 }

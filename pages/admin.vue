@@ -10,7 +10,7 @@
                 max-height="150"
                 max-width="250"
                 src="https://static.wikia.nocookie.net/new-fantendo/images/2/24/Soy_Admin.jpg/revision/latest/scale-to-width-down/340?cb=20200728204122&path-prefix=es"
-              ></v-img>
+              />
             </v-flex>
             <v-flex class="mt-3 ml-2">
               <v-card
@@ -18,56 +18,52 @@
                 outlined
               >
                 <v-row>
-                  <v-flex xs1></v-flex>
+                  <v-flex xs1 />
                   <v-flex class="mt-5 mb-5">
                     <v-form
-                      lazy-validation
                       ref="form"
+                      lazy-validation
                     >
                       <v-text-field
+                        v-model="nombre"
                         label="Nombre"
                         required
-                        v-model="nombre"
+                        :error-messages="nombreErrors"
                         @input="$v.nombre.$touch()"
                         @blur="$v.nombre.$touch()"
-                        :error-messages="nombreErrors"
-                      >
-                      </v-text-field>
+                      />
                       <v-text-field
+                        v-model="correo"
                         label="Correo"
                         required
-                        v-model="correo"
                         type="email"
+                        :error-messages="correoErrors"
                         @input="$v.correo.$touch()"
                         @blur="$v.correo.$touch()"
-                        :error-messages="correoErrors"
-                      >
-                      </v-text-field>
+                      />
                       <v-text-field
+                        v-model="password"
                         label="Contraseña"
                         required
-                        v-model="password"
                         type="password"
+                        :error-messages="passwordErrors"
                         @input="$v.password.$touch()"
                         @blur="$v.password.$touch()"
-                        :error-messages="passwordErrors"
-                      >
-                      </v-text-field>
+                      />
 
                       <v-text-field
                         v-if="!enable"
+                        v-model="password2"
                         label="Contraseña"
                         required
-                        v-model="password2"
                         type="password"
+                        :error-messages="passwordErrors"
                         @input="$v.password.$touch()"
                         @blur="$v.password.$touch()"
-                        :error-messages="passwordErrors"
-                      >
-                      </v-text-field>
+                      />
                     </v-form>
                   </v-flex>
-                  <v-flex xs1></v-flex>
+                  <v-flex xs1 />
                 </v-row>
               </v-card>
             </v-flex>
@@ -75,26 +71,26 @@
           <v-row>
             <v-layout class="mt-2" justify-center>
               <v-checkbox
-                :label="'Página de inicio'"
                 v-model="modulesChe.inicio"
+                :label="'Página de inicio'"
                 disabled
-              ></v-checkbox>
+              />
               <v-checkbox
-                :label="'Página fotos'"
                 v-model="modulesChe.fotos"
-              ></v-checkbox>
+                :label="'Página fotos'"
+              />
               <v-checkbox
-                :label="'Página de ilustraciones'"
                 v-model="modulesChe.ilustraciones"
-              ></v-checkbox>
+                :label="'Página de ilustraciones'"
+              />
               <v-checkbox
-                :label="'Página de juegos de mesa'"
                 v-model="modulesChe.mesa"
-              ></v-checkbox>
+                :label="'Página de juegos de mesa'"
+              />
               <v-checkbox
-                :label="'Página de videojuegos'"
                 v-model="modulesChe.videojuegos"
-              ></v-checkbox>
+                :label="'Página de videojuegos'"
+              />
             </v-layout>
           </v-row>
           <v-btn
@@ -144,9 +140,11 @@
             :items-per-page="10"
             :items="administradores"
           >
-          <template v-slot:[`item.action`]="{ item }">
-            <v-icon @click="getData(item)">mdi-pencil</v-icon>
-          </template>
+            <template #[`item.action`]="{ item }">
+              <v-icon @click="getData(item)">
+                mdi-pencil
+              </v-icon>
+            </template>
           </v-data-table>
         </v-flex>
       </v-layout>
@@ -159,8 +157,8 @@
           modulesChe,
           token : datosAdmin.token
         }"
-        />
-        <UpdateDialog
+      />
+      <UpdateDialog
         ref="updateDialog"
         :datas="{
           nombre,
@@ -170,14 +168,14 @@
           id,
           token : datosAdmin.token
         }"
-        />
-        <DeleteDialog
+      />
+      <DeleteDialog
         ref="deleteDialog"
         :datas="{
           id,
           token : datosAdmin.token
         }"
-        />
+      />
     </v-container>
     <div v-else>
       <ErrorC />
@@ -186,17 +184,17 @@
 </template>
 
 <script>
-import { required, email, alphaNum, } from 'vuelidate/lib/validators'
+import { required, email, alphaNum } from 'vuelidate/lib/validators'
 import { validationMixin } from 'vuelidate'
 
-import ErrorC from '~/components/error';
-import FormsUsers from '~/components/FormUsers';
-import AddDialog from '~/components/AddDialos';
-import UpdateDialog from '~/components/updateDialog';
-import DeleteDialog from '~/components/deleteDialog';
+import ErrorC from '~/components/error'
+import FormsUsers from '~/components/FormUsers'
+import AddDialog from '~/components/AddDialos'
+import UpdateDialog from '~/components/updateDialog'
+import DeleteDialog from '~/components/deleteDialog'
 
 export default {
-  components : {
+  components: {
     ErrorC,
     FormsUsers,
     AddDialog,
@@ -209,7 +207,35 @@ export default {
     password: { required, alphaNum },
     nombre: { required }
   },
-  computed : {
+  data () {
+    return {
+      loading: true,
+      enable: true,
+      datosAdmin: '',
+      activar: false,
+      id: null,
+      nombre: '',
+      correo: '',
+      password: '',
+      password2: '',
+      modulesChe: {
+        inicio: true,
+        fotos: false,
+        ilustraciones: false,
+        mesa: false,
+        videojuegos: false
+      },
+      modules: [],
+      administradores: [],
+      errores: [{ a: 'a' }, { v: 'v' }],
+      headers: [
+        { text: 'Nombre', align: 'center', value: 'Nombre', sortable: true },
+        { text: 'Correo', align: 'center', value: 'Correo', sortable: true },
+        { text: 'Editar', align: 'center', value: 'action', sortable: false }
+      ]
+    }
+  },
+  computed: {
     correoErrors () {
       const errors = []
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -234,118 +260,88 @@ export default {
       if (!this.$v.nombre.$dirty) { return errors }
       !this.$v.nombre.required && errors.push('El nombre es requerido')
       return errors
-    },
-  },
-  data(){
-    return {
-      loading : true,
-      enable : true,
-      datosAdmin : '',
-      activar: false,
-      id: null,
-      nombre : '',
-      correo : '',
-      password : '',
-      password2 : '',
-      modulesChe : {
-        inicio : true,
-        fotos : false,
-        ilustraciones : false,
-        mesa : false,
-        videojuegos : false
-      },
-      modules : [],
-      administradores : [],
-      errores : [{'a': 'a'}, {'v':'v'},],
-      headers : [
-        { text: "Nombre", align: "center", value: "Nombre", sortable: true },
-        { text: "Correo", align: "center", value: "Correo", sortable: true },
-        { text: "Editar", align: "center", value: "action", sortable: false },
-      ]
     }
   },
-  async created(){
-    const datosAd = await this.$auth.$storage.getUniversal('adminDatas');
-    this.datosAdmin = datosAd;
-    await this.getAdmin();
+  watch: {
+    password2 (newV, oldV) {
+      if (newV == this.password) {
+        this.activar = true
+      } else {
+        this.activar = false
+      }
+    }
+  },
+  async created () {
+    const datosAd = await this.$auth.$storage.getUniversal('adminDatas')
+    this.datosAdmin = datosAd
+    await this.getAdmin()
 
-    if(datosAd === undefined){
-      this.loading = false;
+    if (datosAd === undefined) {
+      this.loading = false
     }
   },
-  methods : {
-    async getAdmin(){
-      this.administradores = [];
+  methods: {
+    async getAdmin () {
+      this.administradores = []
       try {
         const { data } = await this.$axios.get('/api/admin', {
-          headers : {
-            token : this.datosAdmin.token
-          }
-        });
-        for( let i = 0; i < data.msg.length; i++){
-          this.administradores.push(data.msg[i]);
-        }
-      } catch (error) {
-        this.administradores = error.response;
-      }
-    },
-    async getData( item ){
-      console.log(item)
-      this.enable = false;
-      this.correo = item.Correo;
-      this.nombre = item.Nombre;
-      this.password = item.Password;
-      this.activar = false;
-      this.id = item.idAdrministrador;
-      await this.getModuleUse(item.idAdrministrador)
-    },
-    async getModuleUse( id ){
-      try {
-        const { data } = await this.$axios.get(`/api/MA/${id}`,{
-          headers : {
-            token : this.datosAdmin.token
+          headers: {
+            token: this.datosAdmin.token
           }
         })
-        this.modulesChe.inicio = data.msg[0].estado;
-        this.modulesChe.fotos = data.msg[1].estado;
-        this.modulesChe.ilustraciones = data.msg[2].estado;
-        this.modulesChe.mesa = data.msg[3].estado;
-        this.modulesChe.videojuegos = data.msg[4].estado;
-
+        for (let i = 0; i < data.msg.length; i++) {
+          this.administradores.push(data.msg[i])
+        }
+      } catch (error) {
+        this.administradores = error.response
+      }
+    },
+    async getData (item) {
+      console.log(item)
+      this.enable = false
+      this.correo = item.Correo
+      this.nombre = item.Nombre
+      this.password = item.Password
+      this.activar = false
+      this.id = item.idAdrministrador
+      await this.getModuleUse(item.idAdrministrador)
+    },
+    async getModuleUse (id) {
+      try {
+        const { data } = await this.$axios.get(`/api/MA/${id}`, {
+          headers: {
+            token: this.datosAdmin.token
+          }
+        })
+        this.modulesChe.inicio = data.msg[0].estado
+        this.modulesChe.fotos = data.msg[1].estado
+        this.modulesChe.ilustraciones = data.msg[2].estado
+        this.modulesChe.mesa = data.msg[3].estado
+        this.modulesChe.videojuegos = data.msg[4].estado
       } catch (error) {
         this.modules = error.response
       }
     },
-    reset(){
-      this.$refs.form.reset();
-      this.modulesChe.inicio = true;
+    reset () {
+      this.$refs.form.reset()
+      this.modulesChe.inicio = true
     },
-    cancel(){
-      this.enable = true;
-      this.$refs.form.reset();
-      this.modulesChe.inicio = true;
-      this.modulesChe.fotos = false;
-      this.modulesChe.ilustraciones = false;
-      this.modulesChe.mesa = false;
-      this.modulesChe.videojuegos = false;
+    cancel () {
+      this.enable = true
+      this.$refs.form.reset()
+      this.modulesChe.inicio = true
+      this.modulesChe.fotos = false
+      this.modulesChe.ilustraciones = false
+      this.modulesChe.mesa = false
+      this.modulesChe.videojuegos = false
     },
-    openModal(){
+    openModal () {
       if (this.errores.length === 0) {
         this.$refs.addDialog.showDialog()
       }
     },
-    activarBotones(){
-      this.enable = true;
-    }
-  },
-  watch : {
-    password2(newV, oldV){
-      if(newV == this.password){
-        this.activar =true;
-      }else{
-        this.activar = false;
-      }
-
+    activarBotones () {
+      this.enable = true
     }
   }
 }

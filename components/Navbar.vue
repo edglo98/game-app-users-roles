@@ -18,7 +18,7 @@
         </div>
         <div id="aside-bar" class="aside-bar aside-bar__opened">
           <ul>
-            <li class="navbar-item" v-if="fotos">
+            <li v-if="fotos" class="navbar-item">
               <NuxtLink to="/photos" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Fotografías</span>
               </NuxtLink>
@@ -28,23 +28,30 @@
                 <span>Ilustraciones</span>
               </NuxtLink>
             </li>
-            <li class="navbar-item" v-if="juegosMesa">
+            <li v-if="juegosMesa" class="navbar-item">
               <NuxtLink to="/tableGames" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Juegos de mesa</span>
               </NuxtLink>
             </li>
-            <li class="navbar-item" v-if="videojuegos">
+            <li v-if="videojuegos" class="navbar-item">
               <NuxtLink to="/videoGames" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Video juegos</span>
               </NuxtLink>
             </li>
-            <li class="navbar-item" v-if="admin">
+            <li v-if="admin" class="navbar-item">
               <NuxtLink to="/admin" title="titulo" class="navbar-item" active-class="navbar-item__active">
                 <span>Administrador</span>
               </NuxtLink>
             </li>
             <li class="navbar-item">
-              <input type="button" title="titulo" class="navbar-item" active-class="navbar-item__active" v-on:click="Logout" value="Salir">
+              <input
+                type="button"
+                title="titulo"
+                class="navbar-item"
+                active-class="navbar-item__active"
+                value="Salir"
+                @click="Logout"
+              >
             </li>
           </ul>
         </div>
@@ -55,34 +62,35 @@
 
 <script>
 export default {
-  data(){
+  data () {
     return {
-      inicio : false,
-      fotos : false,
-      ilustraciones : false,
-      juegosMesa : false,
-      videojuegos : false,
-      admin : true
+      inicio: false,
+      fotos: false,
+      ilustraciones: false,
+      juegosMesa: false,
+      videojuegos: false,
+      admin: true
     }
   },
-  methods : {
-    async Logout(){
-      this.$auth.$storage.setUniversal('userDatas', undefined);
-      this.$auth.$storage.setUniversal('adminDatas', undefined);
-      this.$router.push('/login');
+  async created () {
+    const datosAd = await this.$auth.$storage.getUniversal('adminDatas')
+    if (datosAd === undefined) {
+      this.admin = false
     }
-  },
-  async created(){
-    const datosAd = await this.$auth.$storage.getUniversal('adminDatas');
-    if(datosAd === undefined){
-      this.admin = false;
-    }
-    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
-    this.inicio = modulos.inicio;
-    this.fotos = modulos.fotos;
+    const response = await this.$auth.$storage.getUniversal('userDatas')
+    const { modulos } = response
+    this.inicio = modulos.inicio
+    this.fotos = modulos.fotos
     this.ilustraciones = modulos.ilustraciones
     this.juegosMesa = modulos.juegosMesa
-    this.videojuegos = modulos.videojuegos;
+    this.videojuegos = modulos.videojuegos
+  },
+  methods: {
+    Logout () {
+      this.$auth.$storage.setUniversal('userDatas', undefined)
+      this.$auth.$storage.setUniversal('adminDatas', undefined)
+      this.$router.push('/login')
+    }
   }
 
 }

@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import Errorc from '~/components/error';
+import Errorc from '~/components/error'
 export default {
-  components : {
+  components: {
     Errorc
   },
   data () {
     return {
-      loading : true,
+      loading: true,
       videogames: [
         {
           id: 'abc123',
@@ -70,10 +70,11 @@ export default {
       ]
     }
   },
-  async created(){
-    const { modulos } = await this.$auth.$storage.getUniversal('userDatas');
-    if(modulos.videojuegos === false){
-      this.loading = false;
+  async created () {
+    const response = await this.$auth.$storage.getUniversal('userDatas')
+    const { modulos } = response
+    if (modulos.videojuegos === false) {
+      this.loading = false
     }
   }
 }

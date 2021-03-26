@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import { validationMixin } from 'vuelidate'
 import { required, email, alphaNum } from 'vuelidate/lib/validators'
 
@@ -105,7 +105,7 @@ export default {
         msg: ''
       },
       DialogLoad: false,
-      errores: [],
+      errores: []
     }
   },
   computed: {
@@ -169,10 +169,9 @@ export default {
             token: data.token
           }
 
-          this.DialogLoad = false;
+          this.DialogLoad = false
 
-          this.autenticated( datosUser, data.msg.idAdrministrador );
-
+          this.autenticated(datosUser, data.msg.idAdrministrador)
         } catch (error) {
           const { data } = error.response
           const { ok, msg } = data
@@ -196,18 +195,18 @@ export default {
         this.responseA.dialog = true
       }
     },
-    async autenticated( datosUser, id){
-      console.log(datosUser, id);
-      switch (id){
+    async autenticated (datosUser, id) {
+      console.log(datosUser, id)
+      switch (id) {
         case 6:
-          await this.$auth.$storage.setUniversal('adminDatas', datosUser);
-          await this.$auth.$storage.setUniversal('userDatas', datosUser);
-          this.$router.push('/admin');
-        break;
+          await this.$auth.$storage.setUniversal('adminDatas', datosUser)
+          await this.$auth.$storage.setUniversal('userDatas', datosUser)
+          this.$router.push('/admin')
+          break
         default:
-          await this.$auth.$storage.setUniversal('userDatas', datosUser);
-          this.$router.push('/');
-        break
+          await this.$auth.$storage.setUniversal('userDatas', datosUser)
+          this.$router.push('/')
+          break
       }
     }
   }
